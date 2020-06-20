@@ -42,6 +42,24 @@ class Aula_Periodo(models.Model):
     def __str__(self):
         return self.aula.grado  + ' ' + self.aula.nivel + ' ' + self.periodo.nombre_periodo
 
+class Curso(models.Model):
+    pass
+
+
+class Curso_docente(models.Model):
+    pass
+
+class Notas(models.Model):
+    id_alumno = models.ForeignKey('Alumno', on_delete = models.CASCADE)
+    id_curso = models.ForeignKey('Curso', on_delete = models.CASCADE)
+    id_aula_periodo= models.ForeignKey('Aula_Periodo', on_delete = models.CASCADE)
+    Nota = models.IntegerField(max_length=11)
+
+
+class Asistencia(models.Model):
+    id_alumno = models.ForeignKey('Alumno', on_delete = models.CASCADE)
+    fecha = models.DateField(blank=False, null=False)
+    id_curso_docente = models.ForeignKey('Curso_docente', on_delete = models.CASCADE)
 
 
 
