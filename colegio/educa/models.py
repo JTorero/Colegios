@@ -32,6 +32,14 @@ class Docente(models.Model):
     Apellidos = models.CharField(max_length = 200)
     Edad = models.IntegerField(blank=False)
 
+    class Meta:
+        verbose_name = 'Docente'
+        verbose_name_plural = 'Docentes'
+        ordering = ['Nombre']
+
+    def __str__(self):
+        return self.Nombre
+
 class Periodo(models.Model):
     id = models.AutoField(primary_key = True)
     nombre_periodo = models.CharField(max_length = 50)
@@ -49,12 +57,42 @@ class Aula_Periodo(models.Model):
 
 class Curso(models.Model):
     id = models.AutoField(primary_key = True)
-    nombre_curso = models.CharField(max_length = 200)
+    nombre_curso = models.CharField(max_length=200, blank=False, null=False)
+
+    class Meta:
+        verbose_name = 'Curso'
+        verbose_name_plural = 'Cursos'
+        ordering = ['nombre_curso']
+
+    def __str__(self):
+        return self.nombre_curso
 
 class Curso_docente(models.Model):
     id = models.AutoField(primary_key = True)
     id_curso = models.ForeignKey('Curso', on_delete = models.CASCADE)
     id_docente = models.ForeignKey('Docente', on_delete = models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Curso_Docente'
+        verbose_name_plural = 'Cursos_Docentes'
+        ordering = ['id']
+
+    def __str__(self):
+        return self.id
+
+class Aula_Curso_Docente(models.Model):
+    id = models.AutoField(primary_key=True)
+    aula = models.ForeignKey('Aula', on_delete=models.CASCADE)
+    curso_docente_id = models.ForeignKey('Curso_Docente', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Aula_Curso_Docente'
+        verbose_name_plural = 'Aulas_Cursos_Docentes'
+        ordering = ['id']
+
+    def __str__(self):
+        return self.id
+
 
 class Notas(models.Model):
     id_alumno = models.ForeignKey('Alumno', on_delete = models.CASCADE)
