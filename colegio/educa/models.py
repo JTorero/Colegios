@@ -26,10 +26,15 @@ class Alumno (models.Model):
     def __str__(self):
         return self.nombre + ' ' + self.apellido
 
+class Docente(models.Model):
+    id = models.AutoField(primary_key = True)
+    Nombre = models.CharField(max_length = 200)
+    Apellidos = models.CharField(max_length = 200)
+    Edad = models.IntegerField(blank=False)
+
 class Periodo(models.Model):
     id = models.AutoField(primary_key = True)
     nombre_periodo = models.CharField(max_length = 50)
-    
 
     def __str__(self):
         return self.nombre_periodo
@@ -43,17 +48,19 @@ class Aula_Periodo(models.Model):
         return self.aula.grado  + ' ' + self.aula.nivel + ' ' + self.periodo.nombre_periodo
 
 class Curso(models.Model):
-    pass
-
+    id = models.AutoField(primary_key = True)
+    nombre_curso = models.CharField(max_length = 200)
 
 class Curso_docente(models.Model):
-    pass
+    id = models.AutoField(primary_key = True)
+    id_curso = models.ForeignKey('Curso', on_delete = models.CASCADE)
+    id_docente = models.ForeignKey('Docente', on_delete = models.CASCADE)
 
 class Notas(models.Model):
     id_alumno = models.ForeignKey('Alumno', on_delete = models.CASCADE)
     id_curso = models.ForeignKey('Curso', on_delete = models.CASCADE)
     id_aula_periodo= models.ForeignKey('Aula_Periodo', on_delete = models.CASCADE)
-    Nota = models.IntegerField(max_length=11)
+    Nota = models.IntegerField(blank=False)
 
 
 class Asistencia(models.Model):
